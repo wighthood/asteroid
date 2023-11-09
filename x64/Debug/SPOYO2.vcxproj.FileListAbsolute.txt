@@ -1,0 +1,3 @@
+C:\Users\Gabriel\source\repos\SPOYO2\x64\Debug\SPOYO2.exe
+C:\Users\Dorian\Desktop\horde\CSFML TEMPLATE\x64\Debug\asteroid.exe
+C:\Users\Dorian\Desktop\horde\asteroid\x64\Debug\asteroid.exe

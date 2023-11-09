@@ -55,6 +55,14 @@ void menu()
    // sfRectangleShape* play = sfRectangleShape_create();
     //sfRectangleShape_setSize(play, sfVector2f{ 150, 50 });
 
+    sfText* title = sfText_create();
+    sfText_setFont(title, font1);
+    sfText_setString(title, "ASTEROID");
+    sfText_setOrigin(title, (sfVector2f) { sizeof(title) / 2, 50 / 2 });
+    sfText_setCharacterSize(title, 50);
+    sfText_setPosition(title, (sfVector2f) { WINDOW_X / 2  -110, WINDOW_Y / 4 });
+    sfText_setFillColor(title, sfWhite);
+
     //bouton play
 
     sfRectangleShape* start = sfRectangleShape_create();
@@ -94,6 +102,7 @@ void menu()
         sfRenderWindow_drawText(window, leave, NULL);
         sfRenderWindow_drawRectangleShape(window, start, NULL);
         sfRenderWindow_drawText(window, begin, NULL);
+        sfRenderWindow_drawText(window, title, NULL);
         sfRenderWindow_display(window);
     }
    
@@ -109,8 +118,9 @@ void menu()
             sfRectangleShape_destroy(start);
             sfText_destroy(leave);
             sfText_destroy(begin);
+            sfText_destroy(title);
         }
-        if (sfRectangleShape_getGlobalBounds(start).left <= mousePosition.x &&
+        else if (sfRectangleShape_getGlobalBounds(start).left <= mousePosition.x &&
             mousePosition.x <= sfRectangleShape_getGlobalBounds(start).left + sfRectangleShape_getGlobalBounds(start).width &&
             sfRectangleShape_getGlobalBounds(start).top <= mousePosition.y &&
             mousePosition.y <= sfRectangleShape_getGlobalBounds(start).top + sfRectangleShape_getGlobalBounds(start).height)
@@ -119,6 +129,7 @@ void menu()
             sfRectangleShape_destroy(start);
             sfText_destroy(leave);
             sfText_destroy(begin);
+            sfText_destroy(title);
             game();
         }
     }     

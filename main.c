@@ -45,15 +45,20 @@ int create() {
 
 void game()
 {
-    sfRenderWindow_clear(window, sfBlack);
-    sfRenderWindow_display(window);
     ingame = 1;
+    sfText* player = sfText_create();
+    sfText_setFont(player, font1);
+    sfText_setString(player, "A");
+    sfText_setCharacterSize(player, 50);
+    sfText_setPosition(player, (sfVector2f) { WINDOW_X / 2, WINDOW_Y / 2 });
+
+    sfRenderWindow_clear(window, sfBlack);
+    sfRenderWindow_drawText(window, player, NULL);
+    sfRenderWindow_display(window);
 }
 
 void menu()
 {
-   // sfRectangleShape* play = sfRectangleShape_create();
-    //sfRectangleShape_setSize(play, sfVector2f{ 150, 50 });
 
     sfText* title = sfText_create();
     sfText_setFont(title, font1);

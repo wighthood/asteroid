@@ -1,17 +1,19 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (SPOYO2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   main.c
 C:\Users\Dorian\Desktop\horde\asteroid\main.c(31,13): warning C4244: '=': conversion from 'sfInt32' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(63,60): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(63,75): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(72,65): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(72,79): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(79,59): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(79,74): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(87,63): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(87,77): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(95,55): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(95,70): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(140,11): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(44): warning C4716: 'create': must return a value
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(53,56): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(53,70): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(68,60): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(68,75): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(77,65): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(77,79): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(84,59): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(84,74): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(92,63): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(92,77): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(100,55): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(100,70): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(145,11): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
 C:\Users\Dorian\Desktop\horde\asteroid\main.c(33): warning C4716: 'Delta': must return a value
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(44): warning C4716: 'create': must return a value
   SPOYO2.vcxproj -> C:\Users\Dorian\Desktop\horde\asteroid\x64\Debug\asteroid.exe

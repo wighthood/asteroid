@@ -162,6 +162,6 @@ int main() {
     }
 
     sfClock_destroy(deltaclock);
-    sfWindow_destroy(window);
+    sfRenderWindow_destroy(window);
     return 0;
 }

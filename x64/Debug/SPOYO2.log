@@ -12,7 +12,6 @@ C:\Users\Dorian\Desktop\horde\asteroid\main.c(87,77): warning C4244: 'initializi
 C:\Users\Dorian\Desktop\horde\asteroid\main.c(95,55): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
 C:\Users\Dorian\Desktop\horde\asteroid\main.c(95,70): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
 C:\Users\Dorian\Desktop\horde\asteroid\main.c(140,11): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(165,22): warning C4133: 'function': incompatible types - from 'sfRenderWindow *' to 'sfWindow *'
 C:\Users\Dorian\Desktop\horde\asteroid\main.c(44): warning C4716: 'create': must return a value
 C:\Users\Dorian\Desktop\horde\asteroid\main.c(33): warning C4716: 'Delta': must return a value
   SPOYO2.vcxproj -> C:\Users\Dorian\Desktop\horde\asteroid\x64\Debug\asteroid.exe

@@ -52,9 +52,7 @@ void game()
 
 void menu()
 {
-   // sfRectangleShape* play = sfRectangleShape_create();
-    //sfRectangleShape_setSize(play, sfVector2f{ 150, 50 });
-
+   
     //bouton play
 
     sfRectangleShape* start = sfRectangleShape_create();

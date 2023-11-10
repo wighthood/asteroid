@@ -7,15 +7,21 @@
 #include <SFML/Graphics.h>
 #include <SFML/System.h>
 
+
 typedef int bool;
 #define true 1
 #define false 0
+
+struct Player {
+    sfText* text;        // La représentation graphique du joueur
+    sfVector2f position; // La position du joueur
+    float rotation;        // L'angle de rotation du joueur
+};
 
 int WINDOW_X = 800;
 int WINDOW_Y = 600;
 int gameon = 0;
 int ingame = 0;
-int rot = 0;
 
 float delta = 0;
 
@@ -27,13 +33,13 @@ int anim_time = 75;
 sfFont* font1;
 sfRenderWindow* window;
 
-int Delta() {
+void Delta() {
     sfTime dtime = sfClock_getElapsedTime(deltaclock);
     delta = sfTime_asMilliseconds(dtime);
     sfClock_restart(deltaclock);
 }
 
-int create() {
+void create() {
     sfVideoMode mode = { WINDOW_X, WINDOW_Y, 32 };
 
     font1 = sfFont_createFromFile("font/ubuntu.ttf");
@@ -44,42 +50,64 @@ int create() {
     gameon = 1;
 }
 
-void game()
+void initPlayer(struct Player* player) {
+    player->text = sfText_create();
+    sfText_setFont(player->text, font1);
+    sfText_setString(player->text, "A");
+    sfText_setCharacterSize(player->text, 50);
+    sfFloatRect bounds = sfText_getLocalBounds(player->text);
+    sfText_setOrigin(player->text, (sfVector2f) { bounds.width / 2, bounds.height });
+    sfText_setFillColor(player->text, sfWhite);
+
+    player->rotation = 0.0f;
+
+} 
+
+void updatePlayer(struct Player* player) {
+    if (sfKeyboard_isKeyPressed(sfKeyLeft)) {
+        player->rotation += 3;
+    }
+    else if (sfKeyboard_isKeyPressed(sfKeyRight)) {
+        player->rotation -= 3;
+    }
+
+    sfText_setRotation(player->text, player->rotation);
+    sfText_setPosition(player->text, player->position);
+}
+
+void drawPlayer(struct Player player) {
+    sfRenderWindow_drawText(window, player.text, NULL);
+}
+
+void cleanupPlayer(struct Player* player) {
+    sfText_destroy(player->text);
+}
+
+void game(struct Player* player)
 {
-    if (ingame)
-    {
-        sfText* player = sfText_create();
-        sfText_setFont(player, font1);
-        sfText_setString(player, "A");
-        sfText_setCharacterSize(player, 50);
-        sfText_setPosition(player, (sfVector2f) { WINDOW_X / 2, WINDOW_Y / 2 });
-        sfText_setOrigin(player, (sfVector2f) { 25, 25 });
-        if (sfKeyboard_isKeyPressed(sfKeyLeft))
-        {
-            rot+=3;
-        }
-        else if (sfKeyboard_isKeyPressed(sfKeyRight))
-        {
-            rot-=3;
-        }
-        sfText_setRotation(player, rot);
+    if (ingame) {
+        updatePlayer(player);
+
         sfRenderWindow_clear(window, sfBlack);
-        sfRenderWindow_drawText(window, player, NULL);
+        sfRenderWindow_drawText(window, player->text, NULL);
+        //drawPlayer(*player);
+       
         sfRenderWindow_display(window);
+       
     }
 }
 
 
 void menu()
 {
-    if (!ingame)
     {
         sfText* title = sfText_create();
         sfText_setFont(title, font1);
         sfText_setString(title, "ASTEROID");
-        sfText_setOrigin(title, (sfVector2f) { sizeof(title) / 2, 50 / 2 });
+        sfFloatRect bounds = sfText_getLocalBounds(title);
+        sfText_setOrigin(title, (sfVector2f) { bounds.width / 2, bounds.height });
         sfText_setCharacterSize(title, 50);
-        sfText_setPosition(title, (sfVector2f) { WINDOW_X / 2  -110, WINDOW_Y / 4 });
+        sfText_setPosition(title, (sfVector2f) { WINDOW_X / 2, WINDOW_Y / 4 });
         sfText_setFillColor(title, sfWhite);
 
         //bouton play
@@ -93,9 +121,10 @@ void menu()
         sfText* begin = sfText_create();
         sfText_setFont(begin, font1);
         sfText_setString(begin, "play");
-        sfText_setOrigin(begin, (sfVector2f) { sizeof(begin) / 2, 25 / 2 });
+        sfFloatRect bounds1 = sfText_getLocalBounds(begin);
+        sfText_setOrigin(begin, (sfVector2f) { bounds1.width / 2, bounds1.height });
         sfText_setCharacterSize(begin, 25);
-        sfText_setPosition(begin, (sfVector2f) { WINDOW_X / 2 - 20, WINDOW_Y / 2 });
+        sfText_setPosition(begin, (sfVector2f) { WINDOW_X / 2 , WINDOW_Y / 2 });
         sfText_setFillColor(begin, sfBlack);
 
         //bouton fermer
@@ -109,9 +138,10 @@ void menu()
         sfText* leave = sfText_create();
         sfText_setFont(leave, font1);
         sfText_setString(leave, "exit");
-        sfText_setOrigin(leave, (sfVector2f) { sizeof(leave)/2, 25 / 2 });
+        sfFloatRect bounds2 = sfText_getLocalBounds(leave);
+        sfText_setOrigin(leave, (sfVector2f) { bounds2.width / 2, bounds2.height });
         sfText_setCharacterSize(leave, 25);
-        sfText_setPosition(leave, (sfVector2f) {WINDOW_X/2-20, 3*WINDOW_Y/4});
+        sfText_setPosition(leave, (sfVector2f) {WINDOW_X/2, 3*WINDOW_Y/4});
         sfText_setFillColor(leave, sfBlack);
 
     
@@ -159,6 +189,10 @@ int main() {
     srand(time(0));
     create();
 
+    struct Player player;
+    initPlayer(&player);
+    player.position = (sfVector2f){ WINDOW_X / 2, WINDOW_Y / 2 };
+
     while (gameon) {
         sfEvent event;
         while (sfRenderWindow_pollEvent(window, &event)) {
@@ -176,12 +210,19 @@ int main() {
             nframe += 1;
             sfClock_restart(animclock);
         }
-        menu();
-        game();
+        if (!ingame)
+        {
+            menu();
+        }
+        else if (ingame)
+        {
+            game(&player);
+        }
         /////////////////
     }
 
     sfClock_destroy(deltaclock);
+    cleanupPlayer(&player);
     sfRenderWindow_destroy(window);
     return 0;
 }

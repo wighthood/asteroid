@@ -8,15 +8,13 @@
 #include <SFML/System.h>
 
 
-typedef int bool;
-#define true 1
-#define false 0
 #define pi 3.141592653589793
-float mspeed = 10.0;
+float mspeed = 20.0;
 
 struct Player {
     sfText* text;        
-    sfVector2f position; 
+    sfVector2f position;
+    sfVector2f Delta;
     float rotation;
     float velocity;
 };
@@ -29,9 +27,6 @@ int ingame = 0;
 float delta = 0;
 
 sfClock* deltaclock;
-sfClock* animclock;
-int nframe = 0;
-int anim_time = 75; 
 
 sfFont* font1;
 sfRenderWindow* window;
@@ -49,7 +44,6 @@ void create() {
     window = sfRenderWindow_create(mode, "asteroid",sfClose, NULL);
     sfRenderWindow_setFramerateLimit(window, 60);
     deltaclock = sfClock_create();
-    animclock = sfClock_create();
     gameon = 1;
 }
 
@@ -62,7 +56,9 @@ void initPlayer(struct Player* player) {
     sfText_setOrigin(player->text, (sfVector2f) { bounds.width / 2, bounds.height });
     sfText_setFillColor(player->text, sfWhite);
     player->rotation = -90.0f;
-    player->velocity = 2.0f;
+    player->velocity = 0.5f;
+	player->Delta.x = 0.0f;
+	player->Delta.y = 0.0f;
 } 
 
 
@@ -75,26 +71,36 @@ void updatePlayer(struct Player* player) {
         player->rotation += 3;
     }
 
-    float radians = player->rotation * (pi/ 180);
-    float deltaX = player->velocity * cosf(radians);
-    float deltaY = player->velocity * sinf(radians);
-
     if (sfKeyboard_isKeyPressed(sfKeyUp))
     {
-        player->position.x += deltaX;
-        player->position.y += deltaY;
-        if (player->velocity < mspeed)
+        float radians = player->rotation * pi / 180;
+        
+        if (fabs(player->Delta.x + player->velocity * cos(radians) * delta) < fabs(mspeed * cos(radians))) 
         {
-            player->velocity *= 1.5f;
+            player->Delta.x += player->velocity * cos(radians) * delta;
         }
-    }
-    else if (player->velocity > 2.0)
-    {
-        player->position.x += deltaX;
-        player->position.y += deltaY;
-        player->velocity *= 0.9f;
+        if (fabs(player->Delta.y + player->velocity * sin(radians) * delta) < fabs(mspeed * sin(radians)))
+        {
+            player->Delta.y += player->velocity * sin(radians) * delta;
+        }
+        player->position.x += player->Delta.x;
+        player->position.y += player->Delta.y;
     }
 
+    sfFloatRect bounds = sfText_getLocalBounds(player->text);
+    if (player->position.x > WINDOW_X + bounds.width / 2)
+    {
+        player->position.x = -bounds.width/2;
+    }if (player->position.x < -bounds.width / 2)
+    {
+        player->position.x = WINDOW_X+ bounds.width/2;
+    }if (player->position.y > WINDOW_Y + bounds.height / 2)
+    {
+        player->position.y = -bounds.height/2;
+    }if (player->position.y < - bounds.height / 2)
+    {
+        player->position.y = WINDOW_Y+bounds.height/2;
+    }
 
     sfText_setRotation(player->text, player->rotation+90);
     sfText_setPosition(player->text, player->position);
@@ -230,12 +236,6 @@ int main() {
 
 
         ////// DRAW /////
-        sfTime atime = sfClock_getElapsedTime(animclock); //for animated frames
-        int amseconds = sfTime_asMilliseconds(atime);
-        if (amseconds >= anim_time) {
-            nframe += 1;
-            sfClock_restart(animclock);
-        }
         if (!ingame)
         {
             menu();

@@ -11,15 +11,18 @@
 typedef int bool;
 #define true 1
 #define false 0
+#define pi 3.141592653589793
+float mspeed = 10.0;
 
 struct Player {
-    sfText* text;        // La représentation graphique du joueur
-    sfVector2f position; // La position du joueur
-    float rotation;        // L'angle de rotation du joueur
+    sfText* text;        
+    sfVector2f position; 
+    float rotation;
+    float velocity;
 };
 
-int WINDOW_X = 800;
-int WINDOW_Y = 600;
+int WINDOW_X = 1080;
+int WINDOW_Y = 920;
 int gameon = 0;
 int ingame = 0;
 
@@ -58,20 +61,42 @@ void initPlayer(struct Player* player) {
     sfFloatRect bounds = sfText_getLocalBounds(player->text);
     sfText_setOrigin(player->text, (sfVector2f) { bounds.width / 2, bounds.height });
     sfText_setFillColor(player->text, sfWhite);
-
-    player->rotation = 0.0f;
-
+    player->rotation = -90.0f;
+    player->velocity = 2.0f;
 } 
+
+
 
 void updatePlayer(struct Player* player) {
     if (sfKeyboard_isKeyPressed(sfKeyLeft)) {
-        player->rotation += 3;
-    }
-    else if (sfKeyboard_isKeyPressed(sfKeyRight)) {
         player->rotation -= 3;
     }
+    else if (sfKeyboard_isKeyPressed(sfKeyRight)) {
+        player->rotation += 3;
+    }
 
-    sfText_setRotation(player->text, player->rotation);
+    float radians = player->rotation * (pi/ 180);
+    float deltaX = player->velocity * cosf(radians);
+    float deltaY = player->velocity * sinf(radians);
+
+    if (sfKeyboard_isKeyPressed(sfKeyUp))
+    {
+        player->position.x += deltaX;
+        player->position.y += deltaY;
+        if (player->velocity < mspeed)
+        {
+            player->velocity *= 1.5f;
+        }
+    }
+    else if (player->velocity > 2.0)
+    {
+        player->position.x += deltaX;
+        player->position.y += deltaY;
+        player->velocity *= 0.9f;
+    }
+
+
+    sfText_setRotation(player->text, player->rotation+90);
     sfText_setPosition(player->text, player->position);
 }
 
@@ -89,8 +114,7 @@ void game(struct Player* player)
         updatePlayer(player);
 
         sfRenderWindow_clear(window, sfBlack);
-        sfRenderWindow_drawText(window, player->text, NULL);
-        //drawPlayer(*player);
+        drawPlayer(*player);
        
         sfRenderWindow_display(window);
        
@@ -105,9 +129,9 @@ void menu()
         sfText_setFont(title, font1);
         sfText_setString(title, "ASTEROID");
         sfFloatRect bounds = sfText_getLocalBounds(title);
-        sfText_setOrigin(title, (sfVector2f) { bounds.width / 2, bounds.height });
+        sfText_setOrigin(title, (sfVector2f) { bounds.width/ 2, bounds.height/2 });
         sfText_setCharacterSize(title, 50);
-        sfText_setPosition(title, (sfVector2f) { WINDOW_X / 2, WINDOW_Y / 4 });
+        sfText_setPosition(title, (sfVector2f) { 4*WINDOW_X / 9, WINDOW_Y / 4 });
         sfText_setFillColor(title, sfWhite);
 
         //bouton play
@@ -122,7 +146,7 @@ void menu()
         sfText_setFont(begin, font1);
         sfText_setString(begin, "play");
         sfFloatRect bounds1 = sfText_getLocalBounds(begin);
-        sfText_setOrigin(begin, (sfVector2f) { bounds1.width / 2, bounds1.height });
+        sfText_setOrigin(begin, (sfVector2f) { bounds1.width / 2, bounds1.height/2 });
         sfText_setCharacterSize(begin, 25);
         sfText_setPosition(begin, (sfVector2f) { WINDOW_X / 2 , WINDOW_Y / 2 });
         sfText_setFillColor(begin, sfBlack);
@@ -139,7 +163,7 @@ void menu()
         sfText_setFont(leave, font1);
         sfText_setString(leave, "exit");
         sfFloatRect bounds2 = sfText_getLocalBounds(leave);
-        sfText_setOrigin(leave, (sfVector2f) { bounds2.width / 2, bounds2.height });
+        sfText_setOrigin(leave, (sfVector2f) { bounds2.width / 2, bounds2.height/2 });
         sfText_setCharacterSize(leave, 25);
         sfText_setPosition(leave, (sfVector2f) {WINDOW_X/2, 3*WINDOW_Y/4});
         sfText_setFillColor(leave, sfBlack);
@@ -197,7 +221,9 @@ int main() {
         sfEvent event;
         while (sfRenderWindow_pollEvent(window, &event)) {
             if (event.type == sfEvtClosed)
+            {
                 sfRenderWindow_close(window);
+            }
         }
 
         Delta();

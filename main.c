@@ -9,10 +9,19 @@
 
 
 #define pi 3.141592653589793
-float mspeed = 20.0;
+float mspeed = 10.0;
 
 struct Player {
     sfText* text;        
+    sfVector2f position;
+    sfVector2f Delta;
+    float rotation;
+    float velocity;
+    float slowdown;
+};
+
+struct steroid {
+    sfText* text;
     sfVector2f position;
     sfVector2f Delta;
     float rotation;
@@ -23,6 +32,7 @@ int WINDOW_X = 1080;
 int WINDOW_Y = 920;
 int gameon = 0;
 int ingame = 0;
+
 
 float delta = 0;
 
@@ -36,6 +46,7 @@ void Delta() {
     delta = sfTime_asMilliseconds(dtime);
     sfClock_restart(deltaclock);
 }
+
 
 void create() {
     sfVideoMode mode = { WINDOW_X, WINDOW_Y, 32 };
@@ -53,12 +64,13 @@ void initPlayer(struct Player* player) {
     sfText_setString(player->text, "A");
     sfText_setCharacterSize(player->text, 50);
     sfFloatRect bounds = sfText_getLocalBounds(player->text);
-    sfText_setOrigin(player->text, (sfVector2f) { bounds.width / 2, bounds.height });
+    sfText_setOrigin(player->text, (sfVector2f) { bounds.width / 2, bounds.height/2 });
     sfText_setFillColor(player->text, sfWhite);
     player->rotation = -90.0f;
     player->velocity = 0.5f;
 	player->Delta.x = 0.0f;
 	player->Delta.y = 0.0f;
+
 } 
 
 
@@ -67,25 +79,51 @@ void updatePlayer(struct Player* player) {
     if (sfKeyboard_isKeyPressed(sfKeyLeft)) {
         player->rotation -= 3;
     }
-    else if (sfKeyboard_isKeyPressed(sfKeyRight)) {
+    if (sfKeyboard_isKeyPressed(sfKeyRight)) {
         player->rotation += 3;
     }
 
+    float directionx = cos(player->rotation * (pi / 180.0f));
+    float directiony = sin(player->rotation * (pi / 180.0f));
+
     if (sfKeyboard_isKeyPressed(sfKeyUp))
     {
-        float radians = player->rotation * pi / 180;
         
-        if (fabs(player->Delta.x + player->velocity * cos(radians) * delta) < fabs(mspeed * cos(radians))) 
+        if (fabs(player->Delta.x + player->velocity * directionx) < fabs(mspeed * directionx))
         {
-            player->Delta.x += player->velocity * cos(radians) * delta;
+            player->Delta.x += player->velocity * directionx;
         }
-        if (fabs(player->Delta.y + player->velocity * sin(radians) * delta) < fabs(mspeed * sin(radians)))
+        if (fabs(player->Delta.y + player->velocity * directiony) < fabs(mspeed * directiony))
         {
-            player->Delta.y += player->velocity * sin(radians) * delta;
+            player->Delta.y += player->velocity * directiony;
         }
-        player->position.x += player->Delta.x;
-        player->position.y += player->Delta.y;
     }
+	float norm = sqrt(player->Delta.x * player->Delta.x + player->Delta.y * player->Delta.y);   
+    if (norm != 0)
+    {
+		float normalized_x = player->Delta.x / norm;
+		float normalized_y = player->Delta.y / norm;
+        if (fabs(player->Delta.x) - 0.1*normalized_x > 0)
+        {
+			player->Delta.x -= 0.1*normalized_x;
+        }
+        else
+        {
+            player->Delta.x = 0.0f;
+        }
+        if (fabs(player->Delta.y) - 0.1*normalized_y > 0)
+        {
+			player->Delta.y -= 0.1*normalized_y; 
+        }
+        else
+        {
+            player->Delta.y = 0;
+        }
+		
+    }
+    
+    player->position.x += player->Delta.x;
+    player->position.y += player->Delta.y;
 
     sfFloatRect bounds = sfText_getLocalBounds(player->text);
     if (player->position.x > WINDOW_X + bounds.width / 2)
@@ -233,7 +271,6 @@ int main() {
         }
 
         Delta();
-
 
         ////// DRAW /////
         if (!ingame)

@@ -9,29 +9,38 @@
 
 
 #define pi 3.141592653589793
-float mspeed = 10.0;
+#define max_asteroids 50
+
+float mspeed = 0.05f;
 
 struct Player {
-    sfText* text;        
+    sfText* text;  
+    sfText* Life;
     sfVector2f position;
-    sfVector2f Delta;
+    sfVector2f force;
     float rotation;
     float velocity;
     float slowdown;
+    int life;
 };
+
 
 struct steroid {
     sfText* text;
     sfVector2f position;
-    sfVector2f Delta;
+    sfVector2f force;
     float rotation;
     float velocity;
+    float size;
 };
+
+struct steroid steroids[max_asteroids];
 
 int WINDOW_X = 1080;
 int WINDOW_Y = 920;
 int gameon = 0;
 int ingame = 0;
+int dead = 0;
 
 
 float delta = 0;
@@ -56,6 +65,108 @@ void create() {
     sfRenderWindow_setFramerateLimit(window, 60);
     deltaclock = sfClock_create();
     gameon = 1;
+    ingame = 0;
+    dead = 0;
+}
+
+
+void initsteroid(int x, int y, int size)
+{
+    for (int i = 0; i < max_asteroids; i++)
+    {
+        if (steroids[i].text == NULL)
+        {
+            steroids[i].position.x = x;
+			steroids[i].position.y = y;
+            if (x == 0 && y == 0)
+            {
+                switch (rand() % 2)
+				{
+				case 0:
+					steroids[i].position.x = rand() % WINDOW_X;
+                    steroids[i].position.y = -100;
+					break;
+				case 1:
+					steroids[i].position.y = rand() % WINDOW_Y;
+					steroids[i].position.x = -100;
+					break;
+				}
+            }
+            steroids[i].rotation = rand();
+            steroids[i].velocity = rand()%20+1;
+            float directionx = cos(steroids[i].rotation) * (pi / 180.0f);
+            float directiony = sin(steroids[i].rotation) * (pi / 180.0f);
+            steroids[i].text = sfText_create();
+            steroids[i].force.x = steroids[i].velocity *directionx;
+			steroids[i].force.y = steroids[i].velocity*directiony;
+            sfText_setFont(steroids[i].text, font1);
+            steroids[i].size = size;
+            switch (size)
+            {
+            case 1:
+                sfText_setString(steroids[i].text, "o");
+                sfText_setCharacterSize(steroids[i].text, (float)WINDOW_X * 10.0 / 256.0);
+                sfText_setOrigin(steroids[i].text, (sfVector2f) { sfText_getLocalBounds(steroids[i].text).width / 2, sfText_getLocalBounds(steroids[i].text).height - (WINDOW_X * -25 / 2560) });
+                break;
+            case 2:
+                sfText_setString(steroids[i].text, "O");
+                sfText_setCharacterSize(steroids[i].text, (float)WINDOW_X * 15.0 / 256.0);
+                sfText_setOrigin(steroids[i].text, (sfVector2f) { sfText_getLocalBounds(steroids[i].text).width / 2, sfText_getLocalBounds(steroids[i].text).height - (WINDOW_X * 15 / 2560) });
+                break;
+            case 3:
+                sfText_setString(steroids[i].text, "O");
+                sfText_setCharacterSize(steroids[i].text, (float)WINDOW_X * 20.0 / 256.0);
+                sfText_setOrigin(steroids[i].text, (sfVector2f) { sfText_getLocalBounds(steroids[i].text).width / 2, sfText_getLocalBounds(steroids[i].text).height - (WINDOW_X * 20 / 2560) });
+            }
+            break;
+        }
+    }
+}
+
+
+void updatesteroid()
+{
+    for (int i = 0; i < max_asteroids && steroids[i].text != NULL; i++)
+    {
+        steroids[i].position.x += steroids[i].force.x*delta;
+        steroids[i].position.y += steroids[i].force.y*delta;
+        sfText_setPosition(steroids[i].text, steroids[i].position);
+
+
+        sfFloatRect bounds = sfText_getLocalBounds(steroids[i].text);
+        if (steroids[i].position.x > WINDOW_X + bounds.width / 2)
+        {
+            steroids[i].position.x = -bounds.width / 2;
+        }if (steroids[i].position.x < -bounds.width / 2)
+        {
+            steroids[i].position.x = WINDOW_X + bounds.width / 2;
+        }if (steroids[i].position.y > WINDOW_Y + bounds.height / 2)
+        {
+            steroids[i].position.y = -bounds.height / 2;
+        }if (steroids[i].position.y < -bounds.height / 2)
+        {
+            steroids[i].position.y = WINDOW_Y + bounds.height / 2;
+        }
+    }
+}
+
+void drawsteroid()
+{
+    for (int i = 0; i < max_asteroids &&steroids[i].text != NULL; i++)
+    {
+        sfRenderWindow_drawText(window,steroids[i].text, NULL);
+    }
+}
+
+void cleanupSteroid()
+{
+
+	for (int i = 0; i < max_asteroids && steroids[i].text != NULL; i++)
+	{
+			steroids[i].text = NULL;
+            sfText_destroy(steroids[i].text);
+			break;
+	}
 }
 
 void initPlayer(struct Player* player) {
@@ -64,18 +175,17 @@ void initPlayer(struct Player* player) {
     sfText_setString(player->text, "A");
     sfText_setCharacterSize(player->text, 50);
     sfFloatRect bounds = sfText_getLocalBounds(player->text);
-    sfText_setOrigin(player->text, (sfVector2f) { bounds.width / 2, bounds.height/2 });
+    sfText_setOrigin(player->text, (sfVector2f) { bounds.width / 2, bounds.height / 2 });
     sfText_setFillColor(player->text, sfWhite);
     player->rotation = -90.0f;
-    player->velocity = 0.5f;
-	player->Delta.x = 0.0f;
-	player->Delta.y = 0.0f;
-
-} 
-
-
+    player->velocity = 0.008f;
+    player->force.x = 0.0f;
+    player->force.y = 0.0f;
+    player->life = 3;
+}
 
 void updatePlayer(struct Player* player) {
+    //player rotation
     if (sfKeyboard_isKeyPressed(sfKeyLeft)) {
         player->rotation -= 3;
     }
@@ -88,43 +198,45 @@ void updatePlayer(struct Player* player) {
 
     if (sfKeyboard_isKeyPressed(sfKeyUp))
     {
-        
-        if (fabs(player->Delta.x + player->velocity * directionx) < fabs(mspeed * directionx))
+        //acceleration
+        if (fabs(player->force.x + player->velocity * directionx*delta) < fabs(mspeed * directionx*delta))
         {
-            player->Delta.x += player->velocity * directionx;
+            player->force.x += player->velocity * directionx*delta;
         }
-        if (fabs(player->Delta.y + player->velocity * directiony) < fabs(mspeed * directiony))
+        if (fabs(player->force.y + player->velocity * directiony*delta) < fabs(mspeed * directiony*delta))
         {
-            player->Delta.y += player->velocity * directiony;
+            player->force.y += player->velocity * directiony*delta;
         }
     }
-	float norm = sqrt(player->Delta.x * player->Delta.x + player->Delta.y * player->Delta.y);   
+	float norm = sqrt(player->force.x * player->force.x + player->force.y * player->force.y);   
     if (norm != 0)
     {
-		float normalized_x = player->Delta.x / norm;
-		float normalized_y = player->Delta.y / norm;
-        if (fabs(player->Delta.x) - 0.1*normalized_x > 0)
+        //inertia
+		float normalized_x = player->force.x / norm;
+		float normalized_y = player->force.y / norm;
+        if (fabs(player->force.x) - 0.001*normalized_x *delta > 0)
         {
-			player->Delta.x -= 0.1*normalized_x;
+			player->force.x -= 0.001*normalized_x*delta;
         }
         else
         {
-            player->Delta.x = 0.0f;
+            player->force.x = 0.0f;
         }
-        if (fabs(player->Delta.y) - 0.1*normalized_y > 0)
+        if (fabs(player->force.y) - 0.001*normalized_y *delta > 0)
         {
-			player->Delta.y -= 0.1*normalized_y; 
+			player->force.y -= 0.001*normalized_y*delta; 
         }
         else
         {
-            player->Delta.y = 0;
+            player->force.y = 0;
         }
 		
     }
     
-    player->position.x += player->Delta.x;
-    player->position.y += player->Delta.y;
+    player->position.x += player->force.x*delta;
+    player->position.y += player->force.y*delta;
 
+    //wrap around
     sfFloatRect bounds = sfText_getLocalBounds(player->text);
     if (player->position.x > WINDOW_X + bounds.width / 2)
     {
@@ -140,6 +252,24 @@ void updatePlayer(struct Player* player) {
         player->position.y = WINDOW_Y+bounds.height/2;
     }
 
+    for (int i = 0; i < max_asteroids && steroids[i].text != NULL; i++)
+    {
+        float distx = fabs(steroids[i].position.x - player->position.x);
+        float disty = fabs(steroids[i].position.y - player->position.y);
+        float dist = sqrtf(distx * distx + disty * disty);
+        sfFloatRect steroidbound = sfText_getGlobalBounds(steroids[i].text);
+        if (dist < steroidbound.width/2 + bounds.width/2)
+        {
+            player->position.x = WINDOW_X/2;
+            player->position.y = WINDOW_Y/2;
+            player->force.x = 0;
+            player->force.y = 0;
+            player->rotation = -90.0f;
+            player->life -= 1;
+        }
+    }
+
+
     sfText_setRotation(player->text, player->rotation+90);
     sfText_setPosition(player->text, player->position);
 }
@@ -152,19 +282,39 @@ void cleanupPlayer(struct Player* player) {
     sfText_destroy(player->text);
 }
 
+void drawlive(struct Player* player)
+{
+    char dlife[20];
+    snprintf(dlife, sizeof(dlife), "lives = %d", player->life);
+    sfText* Life = sfText_create();
+    sfText_setFont(Life, font1);
+    sfText_setString(Life, dlife);
+    sfText_setCharacterSize(Life, 40);
+    sfText_setPosition(Life, (sfVector2f) {0, 9*WINDOW_Y/10 });
+    sfText_setFillColor(Life, sfWhite);
+    sfRenderWindow_drawText(window, Life, NULL);
+}
+
 void game(struct Player* player)
 {
     if (ingame) {
         updatePlayer(player);
-
+		updatesteroid();
         sfRenderWindow_clear(window, sfBlack);
         drawPlayer(*player);
-       
+		drawsteroid(player);
+		drawlive(player);
+        
+        if (player->life < 1)
+        {
+            dead = 1;
+			ingame = 0;
+		}
+
         sfRenderWindow_display(window);
        
     }
 }
-
 
 void menu()
 {
@@ -253,12 +403,70 @@ void menu()
 
 }
 
+void gameover(struct Player* player)
+{
+    if (dead)
+    {
+        sfRenderWindow_clear(window, sfBlack);
+
+        sfText* GAMEOVER = sfText_create();
+        sfText_setFont(GAMEOVER, font1);
+        sfText_setString(GAMEOVER, "GAME OVER");
+        sfText_setCharacterSize(GAMEOVER, 40);
+        sfFloatRect bounds = sfText_getLocalBounds(GAMEOVER);
+        sfText_setOrigin(GAMEOVER, (sfVector2f) { bounds.width / 2, bounds.height / 2 });
+        sfText_setPosition(GAMEOVER, (sfVector2f) { WINDOW_X / 2, WINDOW_Y / 4 });
+        sfText_setFillColor(GAMEOVER, sfWhite);
+
+        sfRectangleShape* exit = sfRectangleShape_create();
+        sfRectangleShape_setSize(exit, (sfVector2f) { 150, 50 });
+        sfRectangleShape_setFillColor(exit, sfWhite);
+        sfRectangleShape_setOrigin(exit, (sfVector2f) { 75, 25 });
+        sfRectangleShape_setPosition(exit, (sfVector2f) { WINDOW_X / 2, 3 * WINDOW_Y / 4 });
+
+        sfText* leave = sfText_create();
+        sfText_setFont(leave, font1);
+        sfText_setString(leave, "exit");
+        sfFloatRect bounds2 = sfText_getLocalBounds(leave);
+        sfText_setOrigin(leave, (sfVector2f) { bounds2.width / 2, bounds2.height / 2 });
+        sfText_setCharacterSize(leave, 25);
+        sfText_setPosition(leave, (sfVector2f) { WINDOW_X / 2, 3 * WINDOW_Y / 4 });
+        sfText_setFillColor(leave, sfBlack);
+
+
+        sfRenderWindow_drawText(window, GAMEOVER, NULL);
+        sfRenderWindow_drawRectangleShape(window, exit, NULL);
+        sfRenderWindow_drawText(window, leave, NULL);
+        sfRenderWindow_display(window);
+
+
+        if (sfMouse_isButtonPressed(sfMouseLeft)) {
+            sfVector2i mousePosition = sfMouse_getPositionRenderWindow(window);
+
+            if (sfRectangleShape_getGlobalBounds(exit).left <= mousePosition.x &&
+                mousePosition.x <= sfRectangleShape_getGlobalBounds(exit).left + sfRectangleShape_getGlobalBounds(exit).width &&
+                sfRectangleShape_getGlobalBounds(exit).top <= mousePosition.y &&
+                mousePosition.y <= sfRectangleShape_getGlobalBounds(exit).top + sfRectangleShape_getGlobalBounds(exit).height) {
+                gameon = 0;
+                sfRectangleShape_destroy(exit);
+                sfText_destroy(leave);
+                sfText_destroy(GAMEOVER);
+            }
+        }
+    }
+}
+
 int main() {
     srand(time(0));
     create();
 
     struct Player player;
+	struct steroid Steroid;
     initPlayer(&player);
+    for (int i = 0;i < 9; i++)
+    {
+        initsteroid(0, 0, 3);
+    }
     player.position = (sfVector2f){ WINDOW_X / 2, WINDOW_Y / 2 };
 
     while (gameon) {
@@ -273,7 +481,7 @@ int main() {
         Delta();
 
         ////// DRAW /////
-        if (!ingame)
+        if (!ingame&&!dead)
         {
             menu();
         }
@@ -281,11 +489,16 @@ int main() {
         {
             game(&player);
         }
+        else if (dead)
+        {
+			gameover(&player);
+        }
         /////////////////
     }
 
     sfClock_destroy(deltaclock);
     cleanupPlayer(&player);
+    cleanupSteroid();
     sfRenderWindow_destroy(window);
     return 0;
 }

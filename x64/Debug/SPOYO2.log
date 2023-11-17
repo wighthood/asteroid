@@ -1,56 +1,49 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (SPOYO2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   main.c
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(55,13): warning C4244: '=': conversion from 'sfInt32' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(79,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(80,29): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(86,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(90,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(95,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(96,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(103,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(108,82): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(113,82): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(118,82): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(97,58): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(98,58): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(219,41): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(227,41): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(263,42): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(264,42): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(196,24): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(197,24): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(211,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(257,23): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(258,23): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(293,57): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(328,61): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(328,75): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(337,69): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(337,83): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(345,59): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(345,74): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(353,67): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(353,81): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(362,57): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(362,71): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(418,62): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(418,76): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(425,71): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(425,85): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(433,59): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(433,73): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(440,68): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(440,86): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(448,59): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(448,77): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(486,28): warning C4047: 'function': 'Player *' differs in levels of indirection from 'Player **'
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(486,28): warning C4024: 'initPlayer': different types for formal and actual parameter 1
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(487,59): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(487,73): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(488,22): warning C4047: 'function': 'Player *' differs in levels of indirection from 'Player **'
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(488,22): warning C4024: 'game': different types for formal and actual parameter 1
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(495,11): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(505,46): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(505,60): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Dorian\Desktop\horde\asteroid\main.c(499,17): warning C4101: 'Steroid': unreferenced local variable
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(65,13): warning C4244: '=': conversion from 'sfInt32' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(110,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(111,29): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(117,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(121,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(126,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(127,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(134,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(139,82): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(144,82): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(149,82): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(128,58): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(129,58): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(250,41): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(258,41): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(299,42): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(300,42): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(227,24): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(228,24): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(242,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(293,23): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(294,23): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(337,65): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(347,65): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(376,61): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(376,75): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(385,69): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(385,83): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(393,59): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(393,74): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(401,67): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(401,81): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(410,57): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(410,71): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(466,62): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(466,76): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(473,68): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(473,86): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(481,59): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(481,77): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(492,57): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(492,74): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(519,11): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(529,46): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(529,60): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dorian\Desktop\horde\asteroid\main.c(523,17): warning C4101: 'Steroid': unreferenced local variable
   SPOYO2.vcxproj -> C:\Users\Dorian\Desktop\horde\asteroid\x64\Debug\asteroid.exe

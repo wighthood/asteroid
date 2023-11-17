@@ -10,8 +10,10 @@
 
 #define pi 3.141592653589793
 #define max_asteroids 50
+#define max_bullet 5
 
 float mspeed = 0.05f;
+double gameElapsedTime = 0.0;
 
 struct Player {
     sfText* text;  
@@ -24,6 +26,13 @@ struct Player {
     int life;
 };
 
+struct Bullet {
+    sfText* text;
+    sfVector2f position;
+    sfVector2f force;
+    float rotation;
+    float velocity;
+};
 
 struct steroid {
     sfText* text;
@@ -35,6 +44,7 @@ struct steroid {
 };
 
 struct steroid steroids[max_asteroids];
+struct Bullet bullets[max_bullet];
 
 int WINDOW_X = 1080;
 int WINDOW_Y = 920;
@@ -69,6 +79,27 @@ void create() {
     dead = 0;
 }
 
+
+void initbullet(struct Player *player)
+{
+    for (int i = 0; i < max_bullet; i++)
+    {
+        if (bullets[i].text == NULL)
+        {
+            bullets[i].position.x = player->position.x;
+            bullets[i].position.y = player->position.y;
+        }
+        bullets[i].rotation = player->rotation;
+        bullets[i].velocity = 2 * player->velocity;
+        bullets[i].force = player->force;
+		bullets[i].text = sfText_create();
+		sfText_setFont(bullets[i].text, font1);
+		sfText_setString(bullets[i].text, "I");
+		sfText_setCharacterSize(bullets[i].text, 20);
+		sfText_setPosition(bullets[i].text, bullets[i].position);
+		sfText_setColor(bullets[i].text, sfWhite);
+    }
+}
 
 void initsteroid(int x, int y, int size)
 {
@@ -252,6 +283,11 @@ void updatePlayer(struct Player* player) {
         player->position.y = WINDOW_Y+bounds.height/2;
     }
 
+    /*if (sfKeyboard_isKeyPressed(sfKeySpace))
+    {
+        initbullet(&player);
+    }*/
+
     for (int i = 0; i < max_asteroids && steroids[i].text != NULL; i++)
     {
         float distx = fabs(steroids[i].position.x - player->position.x);
@@ -282,33 +318,45 @@ void cleanupPlayer(struct Player* player) {
     sfText_destroy(player->text);
 }
 
-void drawlive(struct Player* player)
-{
-    char dlife[20];
-    snprintf(dlife, sizeof(dlife), "lives = %d", player->life);
-    sfText* Life = sfText_create();
-    sfText_setFont(Life, font1);
-    sfText_setString(Life, dlife);
-    sfText_setCharacterSize(Life, 40);
-    sfText_setPosition(Life, (sfVector2f) {0, 9*WINDOW_Y/10 });
-    sfText_setFillColor(Life, sfWhite);
-    sfRenderWindow_drawText(window, Life, NULL);
-}
-
 void game(struct Player* player)
 {
     if (ingame) {
+        gameElapsedTime += delta / 1000.0;
         updatePlayer(player);
 		updatesteroid();
         sfRenderWindow_clear(window, sfBlack);
         drawPlayer(*player);
 		drawsteroid(player);
-		drawlive(player);
         
+        char dlife[20];
+        snprintf(dlife, sizeof(dlife), "lives = %d", player->life);
+        sfText* Life = sfText_create();
+        sfText_setFont(Life, font1);
+        sfText_setString(Life, dlife);
+        sfText_setCharacterSize(Life, 40);
+        sfText_setPosition(Life, (sfVector2f) { 0, 9 * WINDOW_Y / 10 });
+        sfText_setFillColor(Life, sfWhite);
+        sfRenderWindow_drawText(window, Life, NULL);
+
+        char dtime[20];
+        snprintf(dtime, sizeof(dtime), "time = %.2f s", gameElapsedTime);
+        sfText *Time = sfText_create();
+        sfText_setFont(Time, font1);
+        sfText_setString(Time, dtime);
+        sfText_setCharacterSize(Time, 40);
+        sfText_setPosition(Time, (sfVector2f) { 0, 8 * WINDOW_Y / 10 });
+        sfText_setFillColor(Time, sfWhite);
+        /*for (int i = 0; i < max_bullet && bullets[i].text != NULL; i++)
+        {
+            sfRenderWindow_drawText(window, bullets[i].text, NULL);
+        }*/
+        sfRenderWindow_drawText(window, Time, NULL);
+
         if (player->life < 1)
         {
             dead = 1;
 			ingame = 0;
+            sfText_destroy(Life);
 		}
 
         sfRenderWindow_display(window);
@@ -433,7 +481,18 @@ void gameover(struct Player* player)
         sfText_setPosition(leave, (sfVector2f) { WINDOW_X / 2, 3 * WINDOW_Y / 4 });
         sfText_setFillColor(leave, sfBlack);
 
+        char dtime[20];
+        snprintf(dtime, sizeof(dtime), "time = %.2f s", gameElapsedTime);
+        sfText* Time = sfText_create();
+        sfText_setFont(Time, font1);
+        sfText_setString(Time, dtime);
+        sfText_setCharacterSize(Time, 40);
+        sfFloatRect bounds3 = sfText_getLocalBounds(Time);
+        sfText_setOrigin(Time, (sfVector2f) { bounds3.width / 2, bounds3.height / 2 });
+        sfText_setPosition(Time, (sfVector2f) { WINDOW_X/2, 2 * WINDOW_Y / 5 });
+        sfText_setFillColor(Time, sfWhite);
 
+        sfRenderWindow_drawText(window, Time, NULL);
         sfRenderWindow_drawText(window, GAMEOVER, NULL);
         sfRenderWindow_drawRectangleShape(window, exit, NULL);
         sfRenderWindow_drawText(window, leave, NULL);
